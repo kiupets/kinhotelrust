@@ -15,10 +15,12 @@ use repository::mongodb_repo::MongoRepo;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let port = env::var("PORT")
-        .unwrap_or_else(|_| "3000".to_string())
-        .parse::<u16>()
-        .expect("fuck you");
+    let HOST = env::var("HOST").expect("Host not set");
+    let PORT = env::var("PORT").expect("Port not set");
+    // let port = env::var("PORT")
+    //     .unwrap_or_else(|_| "3000".to_string())
+    //     .parse::<u16>()
+    //     .expect("fuck you");
 
     let db = MongoRepo::init();
     let db_data = Data::new(db);
@@ -37,7 +39,7 @@ async fn main() -> std::io::Result<()> {
         // .service(echo)
         // .route("/manual_hello", web::get().to(manual_hello))
     })
-    .bind(("0.0.0.0", port))?
+    .bind(format!("{}:{}", HOST, PORT))?
     .run()
     .await
 }
