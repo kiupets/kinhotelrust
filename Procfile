@@ -1,1 +1,1 @@
-web: ./target/release/kinhotelserver
+web ./target/release/kinhotelserver
