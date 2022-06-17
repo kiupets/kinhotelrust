@@ -1,9 +1,8 @@
 use actix_cors::Cors;
 use actix_files::{Files, NamedFile};
-use actix_web::{
-    get, http::header, post, web, web::Data, App, HttpResponse, HttpServer, Responder, Result,
-};
+use actix_web::{web::Data, App, HttpResponse, HttpServer, Responder, Result};
 use serde::{Deserialize, Serialize};
+use std::env;
 
 mod api;
 mod models;
@@ -14,20 +13,13 @@ use api::user_api::{create_user, get_user};
 
 use repository::mongodb_repo::MongoRepo;
 
-// #[get("/")]
-// async fn hello() -> Result<NamedFile> {
-//     Ok(NamedFile::open("./build/index.html")?)
-// }
-
-// #[post("/echo")]
-// async fn echo(req_body: String) -> impl Responder {
-//     HttpResponse::Ok().body(req_body)
-// }
-// async fn manual_hello() -> impl Responder {
-//     HttpResponse::Ok().json("hi there")
-// }
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let port = env::var("PORT")
+        .unwrap_or_else(|_| "3000".to_string())
+        .parse::<u16>()
+        .expect("fuck you");
+
     let db = MongoRepo::init();
     let db_data = Data::new(db);
     HttpServer::new(move || {
@@ -45,7 +37,7 @@ async fn main() -> std::io::Result<()> {
         // .service(echo)
         // .route("/manual_hello", web::get().to(manual_hello))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", port))?
     .run()
     .await
 }
