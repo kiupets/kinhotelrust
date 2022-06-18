@@ -7,6 +7,7 @@ use std::env;
 mod api;
 mod models;
 mod repository;
+mod websocket;
 
 use api::rented_api::{create_rented, get_rented};
 use api::user_api::{create_user, get_user};
@@ -35,9 +36,6 @@ async fn main() -> std::io::Result<()> {
             .service(create_rented)
             .service(get_rented)
             .service(Files::new("/", "./build"))
-        // .service(hello)
-        // .service(echo)
-        // .route("/manual_hello", web::get().to(manual_hello))
     })
     .bind(format!("{}:{}", HOST, PORT))?
     .run()
