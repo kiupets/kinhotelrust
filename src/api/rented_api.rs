@@ -21,6 +21,7 @@ pub async fn create_rented(
     match rented_detail {
         Ok(rented) => {
             let msg = MessageToClient::new("newRented", json!(rented));
+            println!("{:?}", msg);
             websocket_srv.do_send(msg);
             HttpResponse::Ok().json(rented)
         }

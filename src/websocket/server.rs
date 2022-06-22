@@ -7,7 +7,7 @@ use std::collections::HashMap;
 #[rtype(result = "()")]
 pub struct Message(pub String);
 
-#[derive(ActixMessage, Serialize, Deserialize)]
+#[derive(ActixMessage, Serialize, Deserialize, Debug)]
 #[rtype(result = "()")]
 
 pub struct MessageToClient {
