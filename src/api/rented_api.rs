@@ -1,19 +1,29 @@
+use crate::websocket::{MessageToClient, Server};
 use crate::{models::rented_model::Rented, repository::mongodb_repo::MongoRepo};
+use actix::Addr;
 use actix_web::{
     get, post,
     web::{Data, Json, Path},
     HttpResponse,
 };
-
+use serde_json::{json, to_value};
 #[post("/rented")]
-pub async fn create_rented(db: Data<MongoRepo>, new_rented: Json<Rented>) -> HttpResponse {
+pub async fn create_rented(
+    db: Data<MongoRepo>,
+    new_rented: Json<Rented>,
+    websocket_srv: Data<Addr<Server>>,
+) -> HttpResponse {
     let data = Rented {
         id: None,
         interval_rented_array: new_rented.interval_rented_array.to_owned(),
     };
     let rented_detail = db.create_rented(data);
     match rented_detail {
-        Ok(rented) => HttpResponse::Ok().json(rented),
+        Ok(rented) => {
+            let msg = MessageToClient::new("newRented", json!(rented));
+            websocket_srv.do_send(msg);
+            HttpResponse::Ok().json(rented)
+        }
         Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
     }
 }
