@@ -11,7 +11,7 @@ use serde_json::{json, to_value};
 pub async fn create_rented(
     db: Data<MongoRepo>,
     new_rented: Json<Rented>,
-    websocket_srv: Data<Addr<Server>>,
+    // websocket_srv: Data<Addr<Server>>,
 ) -> HttpResponse {
     let data = Rented {
         id: None,

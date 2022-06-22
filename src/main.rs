@@ -1,7 +1,11 @@
-// use actix_cors::Cors;
+use actix_cors::Cors;
+
 use actix_files::{Files, NamedFile};
+
+use actix::Actor;
 use actix_web::{web::Data, App, HttpResponse, HttpServer, Responder, Result};
 use serde::{Deserialize, Serialize};
+
 use std::env;
 
 mod api;
@@ -12,7 +16,6 @@ mod websocket;
 use api::rented_api::{create_rented, get_rented};
 use api::user_api::{create_user, get_user};
 
-use actix::Actor;
 use repository::mongodb_repo::MongoRepo;
 
 #[actix_web::main]
