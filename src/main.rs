@@ -17,7 +17,7 @@ use repository::mongodb_repo::MongoRepo;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let server = websocket::Server::new().start();
+    // let server = websocket::Server::new().start();
     let HOST = env::var("HOST").expect("Host not set");
     let PORT = env::var("PORT").expect("Port not set");
 
@@ -29,7 +29,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             // .wrap(cors)
             .app_data(db_data.clone())
-            .app_data(server.clone())
+            // .app_data(server.clone())
             .service(create_user)
             .service(get_user)
             .service(create_rented)
