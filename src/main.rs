@@ -34,11 +34,11 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             // .wrap(cors)
-            .configure(config)
             .app_data(db_data.clone())
             .app_data(server.clone())
             .service(create_user)
             .service(get_user)
+            .configure(config)
             .service(create_rented)
             .service(get_rented)
             .service(Files::new("/", "./build"))

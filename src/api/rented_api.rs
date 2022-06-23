@@ -25,12 +25,7 @@ pub async fn create_rented(
     }
     let rented_detail = db.create_rented(data);
     match rented_detail {
-        Ok(rented) => {
-            // let msg = MessageToClient::new("newRented", json!(rented));
-            // println!("{:?}", msg);
-            // websocket_srv.do_send(msg);
-            HttpResponse::Ok().json(rented)
-        }
+        Ok(rented) => HttpResponse::Ok().json(rented),
         Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
     }
 }
