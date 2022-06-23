@@ -1,13 +1,12 @@
-use actix_cors::Cors;
+// use actix_cors::Cors;
 
 use actix_files::{Files, NamedFile};
 
 use actix::Actor;
-use actix_web::{web::Data, App, HttpResponse, HttpServer, Responder, Result};
+use actix_web::{web, web::Data, App, HttpResponse, HttpServer, Responder, Result};
 use serde::{Deserialize, Serialize};
 
 use std::env;
-
 mod api;
 mod models;
 mod repository;
@@ -18,9 +17,13 @@ use api::user_api::{create_user, get_user};
 
 use repository::mongodb_repo::MongoRepo;
 
+pub fn config(cfg: &mut web::ServiceConfig) {
+    cfg.service(web::resource("/ws/").route(web::get().to(websocket::ws_index)));
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // let server = websocket::Server::new().start();
+    let server = websocket::Server::new().start();
     let HOST = env::var("HOST").expect("Host not set");
     let PORT = env::var("PORT").expect("Port not set");
 
@@ -31,8 +34,9 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             // .wrap(cors)
+            .configure(config)
             .app_data(db_data.clone())
-            // .app_data(server.clone())
+            .app_data(server.clone())
             .service(create_user)
             .service(get_user)
             .service(create_rented)
