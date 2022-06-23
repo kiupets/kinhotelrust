@@ -4,16 +4,12 @@ use dotenv::dotenv;
 
 use crate::models::rented_model::Rented;
 use crate::models::user_model::User;
-use actix::Addr;
-use actix_web::web::Data;
+
 use mongodb::{
     bson::{doc, extjson::de::Error, oid::ObjectId},
     results::InsertOneResult,
     sync::{Client, Collection},
 };
-use serde_json::to_value;
-
-use crate::websocket::{MessageToClient, Server};
 
 pub struct MongoRepo {
     col: Collection<User>,
@@ -65,11 +61,7 @@ impl MongoRepo {
         Ok(user_detail.unwrap())
     }
 
-    pub fn create_rented(
-        &self,
-        new_rented: Rented,
-        websocket_srv: Data<Addr<Server>>,
-    ) -> Result<InsertOneResult, Error> {
+    pub fn create_rented(&self, new_rented: Rented) -> Result<InsertOneResult, Error> {
         let new_doc = Rented {
             id: None,
             interval_rented_array: new_rented.interval_rented_array,
@@ -79,10 +71,6 @@ impl MongoRepo {
             .insert_one(new_doc, None)
             .ok()
             .expect("Error creating rented");
-        if let Ok(new_doc) = to_value(new_doc.clone()) {
-            let msg = MessageToClient::new("new_doc", new_doc);
-            websocket_srv.do_send(msg);
-        }
         Ok(rented)
     }
 
