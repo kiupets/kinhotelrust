@@ -47,8 +47,8 @@ use websocket::server2::MyWebSocket;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let chat_server = Lobby::default().start(); //create and spin up a lobby
-                                                // let HOST = env::var("HOST").expect("Host not set");
-                                                // let PORT = env::var("PORT").expect("Port not set");
+    let HOST = env::var("HOST").expect("Host not set");
+    let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init();
     let db_data = Data::new(db);
@@ -70,8 +70,8 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/", "./build").index_file("index.html"))
     })
     .workers(2)
-    // .bind(format!("{}:{}", HOST, PORT))?
-    .bind("127.0.0.1:8080")?
+    .bind(format!("{}:{}", HOST, PORT))?
+    // .bind("127.0.0.1:8080")?
     .run()
     .await
 }
