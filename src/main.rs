@@ -7,6 +7,7 @@ use actix_web::{middleware, App, HttpServer, Responder, Result};
 use actix_web_actors::ws;
 use lobby::Lobby;
 use start_connection::{send_statistics, start_connection as start_connection_route};
+use std::env;
 use websocket::lobby;
 use websocket::messages;
 use websocket::start_connection;
@@ -46,8 +47,8 @@ async fn websocket(req: HttpRequest, stream: web::Payload) -> Result<HttpRespons
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let chat_server = Lobby::default().start(); //create and spin up a lobby
-                                                // let HOST = env::var("HOST").expect("Host not set");
-                                                // let PORT = env::var("PORT").expect("Port not set");
+    let HOST = env::var("HOST").expect("Host not set");
+    let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init();
     let db_data = Data::new(db);
