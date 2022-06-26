@@ -23,12 +23,12 @@ use repository::mongodb_repo::MongoRepo;
 
 use websocket::server2::MyWebSocket;
 
-async fn index() -> impl Responder {
-    NamedFile::open_async("./build/index.html").await.unwrap()
-}
-async fn websocket(req: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error> {
-    ws::start(MyWebSocket::new(), &req, stream)
-}
+// async fn index() -> impl Responder {
+//     NamedFile::open_async("./build/index.html").await.unwrap()
+// }
+// async fn websocket(req: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error> {
+//     ws::start(MyWebSocket::new(), &req, stream)
+// }
 // async fn start_connection(
 //     req: HttpRequest,
 //     stream: Payload,
@@ -47,8 +47,8 @@ async fn websocket(req: HttpRequest, stream: web::Payload) -> Result<HttpRespons
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let chat_server = Lobby::default().start(); //create and spin up a lobby
-    let HOST = env::var("HOST").expect("Host not set");
-    let PORT = env::var("PORT").expect("Port not set");
+                                                // let HOST = env::var("HOST").expect("Host not set");
+                                                // let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init();
     let db_data = Data::new(db);
@@ -67,11 +67,11 @@ async fn main() -> std::io::Result<()> {
             .service(get_user)
             .service(create_rented)
             .service(get_rented)
-            .service(Files::new("/", "./build"))
+            .service(Files::new("/", "./build").index_file("index.html"))
     })
     .workers(2)
-    .bind(format!("{}:{}", HOST, PORT))?
-    // .bind("127.0.0.1:8080")?
+    // .bind(format!("{}:{}", HOST, PORT))?
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
