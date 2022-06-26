@@ -70,8 +70,8 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/", "./build"))
     })
     .workers(2)
-    // .bind(format!("{}:{}", HOST, PORT))?
-    .bind("127.0.0.1:8080")?
+    .bind(format!("{}:{}", HOST, PORT))?
+    // .bind("127.0.0.1:8080")?
     .run()
     .await
 }
