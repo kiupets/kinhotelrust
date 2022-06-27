@@ -79,26 +79,34 @@ impl Handler<Disconnect> for Lobby {
 impl Handler<Connect> for Lobby {
     type Result = ();
 
-    fn handle(&mut self, msg: Connect, _: &mut Context<Self>) -> Self::Result {
-        self.rooms
-            .entry(msg.lobby_id.clone())
-            .or_insert_with(HashSet::new)
-            .insert(msg.self_id);
-
-        self.rooms
-            .get(&msg.lobby_id)
-            .unwrap()
-            .iter()
-            .filter(|conn_id| *conn_id.to_owned() != msg.self_id)
-            .for_each(|conn_id| {
-                self.send_message(&format!("{} just joined!", msg.self_id), conn_id)
-            });
-
-        self.sessions.insert(msg.self_id, msg.addr);
-
-        self.send_message(&format!("your id is {}", msg.self_id), &msg.self_id);
+    fn handle(&mut self, msg: Connect, _: &mut Context<Self>) {
+        self.sessions.insert(msg.id.clone(), msg.addr);
     }
 }
+
+// impl Handler<Connect> for Lobby {
+//     type Result = ();
+
+//     fn handle(&mut self, msg: Connect, _: &mut Context<Self>) -> Self::Result {
+//         self.rooms
+//             .entry(msg.lobby_id.clone())
+//             .or_insert_with(HashSet::new)
+//             .insert(msg.self_id);
+
+//         self.rooms
+//             .get(&msg.lobby_id)
+//             .unwrap()
+//             .iter()
+//             .filter(|conn_id| *conn_id.to_owned() != msg.self_id)
+//             .for_each(|conn_id| {
+//                 self.send_message(&format!("{} just joined!", msg.self_id), conn_id)
+//             });
+
+//         self.sessions.insert(msg.self_id, msg.addr);
+
+//         self.send_message(&format!("your id is {}", msg.self_id), &msg.self_id);
+//     }
+// }
 /*
 impl Handler<ClientActorMessage> for Lobby {
     type Result = ();

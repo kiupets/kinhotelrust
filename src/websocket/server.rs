@@ -3,7 +3,6 @@ use std::collections::HashMap;
 use actix::prelude::{Actor, Context, Handler, Message as ActixMessage, Recipient};
 use serde::{Deserialize, Serialize};
 use serde_json::{error::Result as SerdeResult, to_string, Value};
-
 #[derive(ActixMessage)]
 #[rtype(result = "()")]
 pub struct Message(pub String);
@@ -41,14 +40,14 @@ impl Server {
                 for recipient in self.sessions.values() {
                     match recipient.try_send(Message(data.clone())) {
                         Err(err) => {
-                            error!("Error sending client message: {:?}", err);
+                            log::error!("Error sending client message: {:?}", err);
                         }
                         _ => {}
                     }
                 }
             }
             Err(err) => {
-                error!("Data did not convert to string {:?}", err);
+                log::error!("Data did not convert to string {:?}", err);
             }
         }
     }

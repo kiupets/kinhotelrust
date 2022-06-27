@@ -5,12 +5,12 @@ use actix_files::{Files, NamedFile};
 use actix_web::{get, post, web, web::Data, web::Payload, Error, HttpRequest, HttpResponse};
 use actix_web::{middleware, App, HttpServer, Responder, Result};
 use actix_web_actors::ws;
-use lobby::Lobby;
-use start_connection::{send_statistics, start_connection as start_connection_route};
+// use lobby::Lobby;
+// use start_connection::{send_statistics, start_connection as start_connection_route};
 use std::env;
-use websocket::lobby;
-use websocket::messages;
-use websocket::start_connection;
+// use websocket::lobby;
+// use websocket::messages;
+// use websocket::start_connection;
 
 mod api;
 mod models;
@@ -21,7 +21,7 @@ use api::rented_api::{create_rented, get_rented};
 use api::user_api::{create_user, get_user};
 use repository::mongodb_repo::MongoRepo;
 
-use websocket::server2::MyWebSocket;
+// use websocket::server2::MyWebSocket;
 
 // async fn index() -> impl Responder {
 //     NamedFile::open_async("./build/index.html").await.unwrap()
@@ -46,7 +46,8 @@ use websocket::server2::MyWebSocket;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let chat_server = Lobby::default().start(); //create and spin up a lobby
+    // let chat_server = Lobby::default().start(); //create and spin up a lobby
+    let server = websocket::Server::new().start();
     let HOST = env::var("HOST").expect("Host not set");
     let PORT = env::var("PORT").expect("Port not set");
 
@@ -59,9 +60,12 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .app_data(db_data.clone())
             // .service(web::resource("/ws").route(web::get().to(start_connection)))
-            .service(start_connection_route)
-            .data(chat_server.clone())
-            .service(send_statistics)
+            // .service(start_connection_route)
+            .service(websocket::ws_index)
+            // .data(chat_server.clone())
+            .data(server.clone())
+            // .service(send_statistics)
+            // .service(web::resource("/ws").route(web::get().to(websocket)))
             // .service(web::resource("/ws").route(web::get().to(websocket)))
             .service(create_user)
             .service(get_user)

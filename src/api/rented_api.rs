@@ -1,6 +1,6 @@
-use crate::lobby::Lobby;
-use crate::messages::BroadcastMessage;
-use crate::messages::MessageToClient;
+// use crate::lobby::Lobby;
+// use crate::messages::BroadcastMessage;
+use crate::websocket::{MessageToClient, Server};
 use crate::{models::rented_model::Rented, repository::mongodb_repo::MongoRepo};
 use actix::Addr;
 use actix_web::{
@@ -16,22 +16,18 @@ use uuid::Uuid;
 #[post("/rented")]
 pub async fn create_rented(
     db: Data<MongoRepo>,
-    new_rented: Json<Rented>,
-    srv: Data<Addr<Lobby>>,
+    params: Json<Rented>,
+    srv: Data<Addr<Server>>,
     // params: Json<Vec<StatisticRecord>>,
 ) -> HttpResponse {
     let data = Rented {
         id: None,
-        interval_rented_array: new_rented.interval_rented_array.to_owned(),
+        interval_rented_array: params.interval_rented_array.to_owned(),
     };
-    let _msg = new_rented.into_inner();
-
-    let msg = BroadcastMessage {
-        id: Uuid::parse_str("470bb217-ffa7-43d8-a0cc-b3d30421d1a9").unwrap(),
-        msg: json!(_msg),
-        room_id: "dailyCollection".to_string(),
-    };
-    srv.do_send(msg);
+    if let Ok(data) = to_value(data.clone()) {
+        let msg = MessageToClient::new("rented", data);
+        srv.do_send(msg);
+    }
 
     let rented_detail = db.create_rented(data);
     match rented_detail {

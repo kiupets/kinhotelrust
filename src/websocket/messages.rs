@@ -9,19 +9,25 @@ pub struct WsMessage(pub String);
 
 #[derive(ActixMessage)]
 #[rtype(result = "()")]
+// pub struct Connect {
+//     pub addr: Recipient<WsMessage>,
+//     pub lobby_id: String,
+//     pub self_id: Uuid,
+// }
 pub struct Connect {
-    pub addr: Recipient<WsMessage>,
-    pub lobby_id: String,
-    pub self_id: Uuid,
+    pub addr: Recipient<Message>,
+    pub id: String,
 }
 
 #[derive(ActixMessage)]
 #[rtype(result = "()")]
+// pub struct Disconnect {
+//     pub id: Uuid,
+//     pub room_id: String,
+// }
 pub struct Disconnect {
-    pub id: Uuid,
-    pub room_id: String,
+    pub id: String,
 }
-
 /*
 #[derive(Message)]
 #[rtype(result = "()")]
