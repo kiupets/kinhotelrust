@@ -16,7 +16,7 @@ use actix_web::{get, web, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
 
 use crate::Error;
-
+use actix_web_actors::ws::Message::Text;
 mod server;
 pub use self::server::*;
 
@@ -24,6 +24,7 @@ const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(30);
 
 pub struct WebSocketSession {
+    // room: String,
     id: String,
     hb: Instant,
     server_addr: Addr<Server>,
@@ -97,6 +98,11 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WebSocketSession 
                 self.hb = Instant::now();
             }
             Ok(ws::Message::Binary(bin)) => ctx.binary(bin),
+            // Ok(Text(s)) => {
+            //     println!("{}", s);
+            //     self.server_addr
+            //         .do_send(MessageToClient::new("rented", serde_json::json!("uuuu")))
+            // }
             Ok(ws::Message::Close(reason)) => {
                 log::info!("closed ws session");
                 self.server_addr.do_send(Disconnect {
@@ -124,6 +130,5 @@ pub async fn ws_index(
         &req,
         stream,
     )?;
-
     Ok(res)
 }
