@@ -20,6 +20,7 @@ pub async fn create_rented(
     srv: Data<Addr<Server>>,
     // params: Json<Vec<StatisticRecord>>,
 ) -> HttpResponse {
+    println!("rented api");
     let data = Rented {
         id: None,
         interval_rented_array: params.interval_rented_array.to_owned(),
@@ -29,7 +30,7 @@ pub async fn create_rented(
         srv.do_send(msg);
     }
 
-    let rented_detail = db.create_rented(data);
+    let rented_detail = db.create_rented(data).await;
     match rented_detail {
         Ok(rented) => HttpResponse::Ok().json(rented),
         Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
@@ -42,9 +43,21 @@ pub async fn get_rented(db: Data<MongoRepo>, path: Path<String>) -> HttpResponse
     if id.is_empty() {
         return HttpResponse::BadRequest().body("invalid ID");
     }
-    let rented_detail = db.get_rented(&id);
+    let rented_detail = db.get_rented(&id).await;
     match rented_detail {
         Ok(rented) => HttpResponse::Ok().json(rented),
+        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+    }
+}
+
+#[get("/all")]
+pub async fn get_all(db: Data<MongoRepo>) -> HttpResponse {
+    println!("mammmmmmmmmmmmmmmmmmmmmmmmmm");
+    let rents = db.get_all().await;
+    println!("{:?}", rents);
+
+    match rents {
+        Ok(rents) => HttpResponse::Ok().json(rents),
         Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
     }
 }

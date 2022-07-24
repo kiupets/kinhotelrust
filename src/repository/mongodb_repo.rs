@@ -4,16 +4,16 @@ use dotenv::dotenv;
 
 use crate::models::rented_model::Rented;
 use crate::models::user_model::User;
-
 use actix_web::{
     get, post,
     web::{Data, Json, Path},
     HttpResponse,
 };
+use futures::stream::TryStreamExt;
 use mongodb::{
     bson::{doc, extjson::de::Error, oid::ObjectId},
     results::InsertOneResult,
-    sync::{Client, Collection},
+    Client, Collection,
 };
 
 pub struct MongoRepo {
@@ -22,13 +22,13 @@ pub struct MongoRepo {
 }
 
 impl MongoRepo {
-    pub fn init() -> Self {
+    pub async fn init() -> Self {
         dotenv().ok();
         let uri = match env::var("MONGO_URI") {
             Ok(v) => v.to_string(),
             Err(_) => format!("Error loading env variable"),
         };
-        let client = Client::with_uri_str(uri).unwrap();
+        let client = Client::with_uri_str(uri).await.unwrap();
         let db = client.database("kinhotelrust");
         let col: Collection<User> = db.collection("User");
         let col_rented: Collection<Rented> = db.collection("Rented");
@@ -36,7 +36,7 @@ impl MongoRepo {
         MongoRepo { col, col_rented }
     }
 
-    pub fn create_user(&self, new_user: User) -> Result<InsertOneResult, Error> {
+    pub async fn create_user(&self, new_user: User) -> Result<InsertOneResult, Error> {
         let new_doc = User {
             id: None,
             name: new_user.name,
@@ -50,23 +50,26 @@ impl MongoRepo {
         let user = self
             .col
             .insert_one(new_doc, None)
+            .await
             .ok()
             .expect("Error creating user");
         Ok(user)
     }
 
-    pub fn get_user(&self, id: &String) -> Result<User, Error> {
+    pub async fn get_user(&self, id: &String) -> Result<User, Error> {
         let obj_id = ObjectId::parse_str(id).unwrap();
         let filter = doc! {"_id": obj_id};
         let user_detail = self
             .col
             .find_one(filter, None)
+            .await
             .ok()
             .expect("Error getting user's detail");
         Ok(user_detail.unwrap())
     }
 
-    pub fn create_rented(&self, new_rented: Rented) -> Result<InsertOneResult, Error> {
+    pub async fn create_rented(&self, new_rented: Rented) -> Result<InsertOneResult, Error> {
+        println!("mongo repo");
         let new_doc = Rented {
             id: None,
             interval_rented_array: new_rented.interval_rented_array,
@@ -75,19 +78,41 @@ impl MongoRepo {
         let rented = self
             .col_rented
             .insert_one(new_doc, None)
+            .await
             .ok()
             .expect("Error creating rented");
         Ok(rented)
     }
 
-    pub fn get_rented(&self, id: &String) -> Result<Rented, Error> {
+    pub async fn get_rented(&self, id: &String) -> Result<Rented, Error> {
         let obj_id = ObjectId::parse_str(id).unwrap();
         let filter = doc! {"_id": obj_id};
         let rented_detail = self
             .col_rented
             .find_one(filter, None)
+            .await
             .ok()
             .expect("Error getting user's detail");
-        Ok(rented_detail.unwrap())
+        Ok(rented_detail.expect("bad ok"))
+    }
+
+    pub async fn get_all(&self) -> Result<Vec<Rented>, Error> {
+        println!("mongo repo");
+        let mut cursors = self
+            .col_rented
+            .find(None, None)
+            .await
+            .ok()
+            .expect("Error getting list of users");
+        let mut rents: Vec<Rented> = Vec::new();
+        while let Some(rent) = cursors
+            .try_next()
+            .await
+            .ok()
+            .expect("Error mapping throu cursor")
+        {
+            rents.push(rent)
+        }
+        Ok(rents)
     }
 }
