@@ -24,8 +24,8 @@ use websocket::ws_index;
 
 async fn main() -> std::io::Result<()> {
     let server = websocket::Server::new().start();
-    let HOST = env::var("HOST").expect("Host not set");
-    let PORT = env::var("PORT").expect("Port not set");
+    // let HOST = env::var("HOST").expect("Host not set");
+    // let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init().await;
     let db_data = Data::new(db);
@@ -45,8 +45,8 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/", "./build").index_file("index.html"))
     })
     .workers(2)
-    .bind(format!("{}:{}", HOST, PORT))?
-    // .bind("127.0.0.1:8080")?
+    // .bind(format!("{}:{}", HOST, PORT))?
+    .bind("0.0.0.0:3000")?
     .run()
     .await
 }
