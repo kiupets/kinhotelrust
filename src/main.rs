@@ -16,6 +16,7 @@ use api::rented_api::{create_rented, get_all, get_rented};
 use api::user_api::{create_user, get_user};
 use repository::mongodb_repo::MongoRepo;
 use websocket::ws_index;
+mod settings;
 
 // pub fn routes(cfg: &mut web::ServiceConfig) {
 //     cfg.service(web::resource("/ws").route(web::get().to(ws_index)));
@@ -24,6 +25,8 @@ use websocket::ws_index;
 
 async fn main() -> std::io::Result<()> {
     let server = websocket::Server::new().start();
+    let settings = crate::settings::Settings::new().unwrap();
+    let server_address = format!("{}:{}", settings.server_address, settings.server_port);
     // let HOST = env::var("HOST").expect("Host not set");
     // let PORT = env::var("PORT").expect("Port not set");
 
@@ -46,7 +49,7 @@ async fn main() -> std::io::Result<()> {
     })
     .workers(2)
     // .bind(format!("{}:{}", HOST, PORT))?
-    .bind("0.0.0.0:3000")?
+    .bind(server_address)?
     .run()
     .await
 }
