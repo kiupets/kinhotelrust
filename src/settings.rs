@@ -13,10 +13,10 @@ impl Settings {
 
         // read the local file onyl in development mode
         #[cfg(debug_assertions)]
-        let builder = builder.add_source(File::with_name("assets/tide-config.ini"));
+        let builder = builder.add_source(File::with_name("assets/kin-config.ini"));
 
         #[cfg(not(debug_assertions))]
-        let builder = builder.add_source(File::with_name("/usr/local/etc/tide-config.ini"));
+        let builder = builder.add_source(File::with_name("/usr/local/etc/kin-config.ini"));
 
         let config = builder.build()?;
         config.try_deserialize()
