@@ -2,7 +2,9 @@
 name = "kinhotelserver"
 version = "0.1.0"
 edition = "2021"
-
+authors = ["gonza gonzalogg1975@gmail.com"]
+readme = "READMY.md"
+license = "MPL 2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -26,6 +28,26 @@ actix-rt = "2.7.0"
 ws = "0.9.2"
 derive_more = "0.99.9"
 config = "0.13.2"
+
+[profile.release]
+lto = true
+opt-level = 3
+
+[package.metadata.deb]
+maintainer = "Gonzalo Gil gonzalogg1975@gmail.com"
+copyright = "2019, Gonzalo Gil"
+depends = "$auto, systemd"
+conf-files = ["/usr/local/etc/kin-config.ini", "/etc/systemd/system/kinhotelserver.service"]
+extended-description = """\
+web-server written in rust.\
+"""
+section = "admin"
+priority = "optional"
+assets = [
+    ["target/release/kinhotelserver", "/usr/local/bin/", "755"],
+    ["assets/kin-config.ini", "/usr/local/etc/", "644"],
+    ["assets/kinhotelserver.service", "/etc/systemd/system/", "644"],
+]
 
 
 [dependencies.mongodb]
