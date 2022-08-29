@@ -3,7 +3,7 @@ name = "kinhotelserver"
 description="kinhotelserver"
 version = "0.1.0"
 edition = "2021"
-authors = ["Gonzalo Gil gonzalogg1975@gmail.com"]
+authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 readme = "README.md"
 #license = "MPL 2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -29,13 +29,17 @@ actix-rt = "2.7.0"
 ws = "0.9.2"
 derive_more = "0.99.9"
 config = "0.13.2"
+[dependencies.mongodb]
+version = "2.2.0"
+default-features = false
+features = ["async-std-runtime"] 
 
 [profile.release]
 lto = true
 opt-level = 3
 
 [package.metadata.deb]
-maintainer = "Gonzalo Gil gonzalogg1975@gmail.com"
+maintainer = "Gonzalo Gil <gonzalogg1975@gmail.com>"
 copyright = "2019, Gonzalo Gil"
 depends = "$auto, systemd"
 conf-files = ["/usr/local/etc/kin-config.ini", "/etc/systemd/system/kinhotelserver.service"]
@@ -51,7 +55,4 @@ assets = [
 ]
 
 
-[dependencies.mongodb]
-version = "2.2.0"
-default-features = false
-features = ["async-std-runtime"] 
+
