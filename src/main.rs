@@ -1,12 +1,10 @@
 use actix::Actor;
-use actix::{Addr, Running, StreamHandler};
-use actix_cors::Cors;
-use actix_files::{Files, NamedFile};
-use actix_web::{get, post, web, web::Data, web::Payload, Error, HttpRequest, HttpResponse};
-use actix_web::{middleware, App, HttpServer, Responder, Result};
-use actix_web_actors::ws;
 
-use std::env;
+// use actix_cors::Cors;
+use actix_files::Files;
+use actix_web::{web, web::Data, Error};
+use actix_web::{App, HttpServer};
+// use actix_web_actors::ws;
 
 mod api;
 mod models;

@@ -3,7 +3,7 @@ Description=rust server
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/tide-server
+ExecStart=/usr/local/bin/kinhotelserver
 Type=exec
 Restart=on-failure
 

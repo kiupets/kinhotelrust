@@ -12,7 +12,7 @@ use actix::{
     prelude::{Actor, Addr, Handler, StreamHandler},
     ActorContext, ActorFutureExt, AsyncContext, ContextFutureSpawner, WrapFuture,
 };
-use actix_web::{get, web, HttpRequest, HttpResponse};
+use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
 
 use crate::Error;

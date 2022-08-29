@@ -4,11 +4,7 @@ use dotenv::dotenv;
 
 use crate::models::rented_model::Rented;
 use crate::models::user_model::User;
-use actix_web::{
-    get, post,
-    web::{Data, Json, Path},
-    HttpResponse,
-};
+
 use futures::stream::TryStreamExt;
 use mongodb::{
     bson::{doc, extjson::de::Error, oid::ObjectId},
