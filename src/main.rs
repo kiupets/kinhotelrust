@@ -36,7 +36,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             // .wrap(cors)
             .app_data(db_data.clone())
-            .data(server.clone())
+            .app_data(server.clone())
             .service(create_user)
             .route("/ws", web::get().to(ws_index))
             .service(get_user)
