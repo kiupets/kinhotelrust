@@ -14,7 +14,7 @@ use api::rented_api::{create_rented, get_all, get_rented};
 use api::user_api::{create_user, get_user};
 use repository::mongodb_repo::MongoRepo;
 use websocket::ws_index;
-mod settings;
+// mod settings;
 
 // pub fn routes(cfg: &mut web::ServiceConfig) {
 //     cfg.service(web::resource("/ws").route(web::get().to(ws_index)));
