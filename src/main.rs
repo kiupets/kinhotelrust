@@ -47,7 +47,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_all)
             .service(Files::new("/", "./build").index_file("index.html"))
     })
-    .workers(2)
+    // .workers(2)
     // .bind(format!("{}:{}", HOST, PORT))?
     .bind(server_address)?
     .run()
