@@ -23,8 +23,8 @@ mod settings;
 
 async fn main() -> std::io::Result<()> {
     let server = websocket::Server::new().start();
-    let settings = crate::settings::Settings::new().unwrap();
-    let server_address = format!("{}:{}", settings.server_address, settings.server_port);
+    // let settings = crate::settings::Settings::new().unwrap();
+    // let server_address = format!("{}:{}", settings.server_address, settings.server_port);
     // let HOST = env::var("HOST").expect("Host not set");
     // let PORT = env::var("PORT").expect("Port not set");
 
@@ -47,7 +47,7 @@ async fn main() -> std::io::Result<()> {
     })
     // .workers(2)
     // .bind(format!("{}:{}", HOST, PORT))?
-    .bind(server_address)?
+    .bind("0.0.0.0:3000")?
     .run()
     .await
 }

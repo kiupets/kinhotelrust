@@ -42,7 +42,7 @@ opt-level = 3
 maintainer = "Gonzalo Gil <gonzalogg1975@gmail.com>"
 copyright = "2019, Gonzalo Gil"
 depends = "$auto, systemd"
-conf-files = ["/usr/local/etc/kin-config.ini", "/etc/systemd/system/kinhotelserver.service"]
+conf-files = ["/etc/systemd/system/kinhotelserver.service"]
 extended-description = """\
 web-server written in rust.\
 """
@@ -50,7 +50,7 @@ section = "admin"
 priority = "optional"
 assets = [
     ["target/release/kinhotelserver", "/usr/local/bin/", "755"],
-    ["assets/kin-config.ini", "/usr/local/etc/", "644"],
+   
     ["assets/kinhotelserver.service", "/etc/systemd/system/", "644"],
 ]
 
