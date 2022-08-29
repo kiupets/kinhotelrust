@@ -36,7 +36,21 @@ default-features = false
 features = ["async-std-runtime"] 
 
 
-
+[package.metadata.deb]
+maintainer = "gonzalo <gonzalogg1975@gmail.com>"
+copyright = "2019, gonzalo gil"
+depends = "$auto, systemd"
+#conf-files = [ "/etc/systemd/system/kinhotelserver.service"]
+extended-description = """\
+web-server written in rust.\
+"""
+section = "admin"
+priority = "optional"
+assets = [
+    ["target/release/kinhotelserver", "/usr/local/bin/", "755"],
+    
+    ["assets/kinhotelserver.service", "/etc/systemd/system/", "644"],
+]
 
 
 
