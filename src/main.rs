@@ -22,7 +22,7 @@ use websocket::ws_index;
 #[actix_web::main]
 
 async fn main() -> std::io::Result<()> {
-    // let server = websocket::Server::new().start();
+    let server = websocket::Server::new().start();
     // let settings = crate::settings::Settings::new().unwrap();
     // let server_address = format!("{}:{}", settings.server_address, settings.server_port);
     // let HOST = env::var("HOST").expect("Host not set");
@@ -36,9 +36,9 @@ async fn main() -> std::io::Result<()> {
         App::new()
             // .wrap(cors)
             .app_data(db_data.clone())
-            // .app_data(server.clone())
+            .app_data(server.clone())
             .service(create_user)
-            // .route("/ws", web::get().to(ws_index))
+            .route("/ws", web::get().to(ws_index))
             .service(get_user)
             .service(create_rented)
             .service(get_rented)
