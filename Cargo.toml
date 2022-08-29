@@ -41,17 +41,13 @@ opt-level = 3
 [package.metadata.deb]
 maintainer = "Gonzalo Gil <gonzalogg1975@gmail.com>"
 copyright = "2019, Gonzalo Gil"
-depends = "$auto, systemd"
+#depends = "$auto, systemd"
 conf-files = ["/etc/systemd/system/kinhotelserver.service"]
 extended-description = """\
 web-server written in rust.\
 """
 section = "admin"
 priority = "optional"
-assets = [
-    ["target/release/kinhotelserver", "/usr/local/bin/", "755"],
-    ["assets/kinhotelzarate.service", "/etc/systemd/system/", "644"],
-]
 
 
 
