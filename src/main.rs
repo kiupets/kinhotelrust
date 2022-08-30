@@ -1,4 +1,5 @@
 use actix::Actor;
+use std::env;
 
 // use actix_cors::Cors;
 use actix_files::Files;
@@ -23,10 +24,9 @@ use websocket::ws_index;
 
 async fn main() -> std::io::Result<()> {
     let server = websocket::Server::new().start();
-    // let settings = crate::settings::Settings::new().unwrap();
-    // let server_address = format!("{}:{}", settings.server_address, settings.server_port);
-    // let HOST = env::var("HOST").expect("Host not set");
-    // let PORT = env::var("PORT").expect("Port not set");
+
+    let HOST = env::var("HOST").expect("Host not set");
+    let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init().await;
     let db_data = Data::new(db);
@@ -46,8 +46,8 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/", "./build").index_file("index.html"))
     })
     // .workers(2)
-    // .bind(format!("{}:{}", HOST, PORT))?
-    .bind("0.0.0.0:8000")?
+    .bind(format!("{}:{}", HOST, PORT))?
+    // .bind("0.0.0.0:8000")?
     .run()
     .await
 }

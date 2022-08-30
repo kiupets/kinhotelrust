@@ -1,7 +1,5 @@
 [package]
 name = "kinhotelserver"
-authors = ["gonzalo <gonzalogg1975@gmail.com>"]
-
 version = "0.1.0"
 edition = "2021"
 
@@ -34,26 +32,5 @@ config = "0.13.2"
 version = "2.2.0"
 default-features = false
 features = ["async-std-runtime"] 
-
-[profile.release]
-
-opt-level = 3
-
-[package.metadata.deb]
-maintainer = "gonzalo <gonzalogg1975@gmail.com>"
-copyright = "2019, gonzalo gil"
-depends = "$auto, systemd"
-conf-files = [ "/etc/systemd/system/kinhotelserver.service"]
-extended-description = """\
-web-server written in rust.\
-"""
-section = "admin"
-priority = "optional"
-assets = [
-    ["target/release/kinhotelserver", "/usr/local/bin/", "755"],
-    
-    ["assets/kinhotelserver.service", "/etc/systemd/system/", "644"],
-]
-
 
 
