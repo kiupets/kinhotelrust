@@ -1,30 +1,11 @@
-
-# [Unit]
-# AssertPathExists=/usr/bin/kin
-
-# [Service]
-# WorkingDirectory=/home/kinhotel/kinhotelrust
-# ExecStart=/usr/local/bin/kin
-# Restart=always
-# PrivateTmp=true
-# NoNewPrivileges=true
-
-# [Install]
-# Alias=kin
-# WantedBy=default.target
-
 [Unit]
-Description=The NGINX HTTP and reverse proxy server
-After=syslog.target network.target remote-fs.target nss-lookup.target
+Description=kinhotelserver
 
 [Service]
-Type=forking
-PIDFile=/run/nginx.pid
-ExecStartPre=/usr/local/sbin/nginx -t
-ExecStart=/usr/local/sbin/nginx
-ExecReload=/usr/sbin/nginx -s reload
-ExecStop=/bin/kill -s QUIT $MAINPID
-PrivateTmp=true
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=/home/root/kinhotel/kinhotelrust/target/debian/kinhotelserver_0.1.0_amd64
 
 [Install]
 WantedBy=multi-user.target
