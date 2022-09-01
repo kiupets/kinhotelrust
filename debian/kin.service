@@ -1,11 +1,13 @@
 [Unit]
-Description=kinhotelserver
+AssertPathExists=/usr/bin/hello
 
 [Service]
-Type=simple
+WorkingDirectory=/home/kinhotel/kinhotelrust
+ExecStart=/usr/bin/kin
 Restart=always
-RestartSec=5s
-ExecStart=/home/root/kinhotel/kinhotelrust/target/debian/kinhotelserver_0.1.0_amd64
+PrivateTmp=true
+NoNewPrivileges=true
 
 [Install]
-WantedBy=multi-user.target
+Alias=hello
+WantedBy=default.target

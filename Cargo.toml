@@ -14,9 +14,8 @@ section = "utils"
 priority = "optional"
 assets = [
     # binary
-    ["target/release/kinhotelserver", "usr/local/bin/kin", "755"],
-     ["debian/kin.service", "/lib/systemd/system/kin.service", "644"], 
-
+     ["target/release/kinhotelserver", "usr/bin/kin", "755"],
+    ["debian/kin.service", "/lib/systemd/system/kin.service", "644"], 
 ]
 maintainer-scripts = "debian/scripts"
 
