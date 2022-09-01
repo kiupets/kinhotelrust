@@ -4,7 +4,7 @@ AssertPathExists=/usr/bin/kin
 
 [Service]
 WorkingDirectory=/home/kinhotel/kinhotelrust
-ExecStart=/usr/bin/kin
+ExecStart=/home/root/kinhotel/kinhotelrust/target/release/kinhotelserver
 Restart=always
 PrivateTmp=true
 NoNewPrivileges=true
