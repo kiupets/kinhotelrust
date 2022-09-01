@@ -4,6 +4,25 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Gonzalo Gil"]
 
+[package.metadata.deb]
+maintainer = "cargo-deb developers <cargo-deb@example.invalid>"
+copyright = "2017, cargo-deb developers."
+license-file = ["LICENSE", "2"]
+extended-description = "example project for cargo-deb"
+depends = "$auto"
+section = "utils"
+priority = "optional"
+assets = [
+    # binary
+    ["target/release/kinhotelserver", "usr/bin/", "755"],
+    # assets
+    ["assets/*", "var/lib/kinhotelserver", "644"],
+
+]
+changelog = "changelog"
+default-features = false
+features = ["example_debian_build"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
