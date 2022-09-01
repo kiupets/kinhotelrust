@@ -4,7 +4,7 @@
 
 # [Service]
 # WorkingDirectory=/home/kinhotel/kinhotelrust
-# ExecStart=/usr/bin/kin
+# ExecStart=/usr/local/bin/kin
 # Restart=always
 # PrivateTmp=true
 # NoNewPrivileges=true
@@ -21,7 +21,7 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 Type=forking
 PIDFile=/run/nginx.pid
 ExecStartPre=/usr/local/sbin/nginx -t
-ExecStart=/usr/sbi
+ExecStart=/usr/local/sbin/nginx
 ExecReload=/usr/sbin/nginx -s reload
 ExecStop=/bin/kill -s QUIT $MAINPID
 PrivateTmp=true
