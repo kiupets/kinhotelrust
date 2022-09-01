@@ -47,7 +47,7 @@ async fn main() -> std::io::Result<()> {
     })
     // .workers(2)
     // .bind(format!("{}:{}", HOST, PORT))?
-    .bind("0.0.0.0:8000")?
+    .bind("0.0.0.0:3000")?
     .run()
     .await
 }
