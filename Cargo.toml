@@ -2,7 +2,7 @@
 name = "kinhotelserver"
 version = "0.1.0"
 edition = "2021"
-authors = ["Gonzalo Gil"]
+authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 
 [package.metadata.deb]
 maintainer = "cargo-deb developers <cargo-deb@example.invalid>"
