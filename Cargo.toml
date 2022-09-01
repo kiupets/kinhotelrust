@@ -9,19 +9,17 @@ maintainer = "cargo-deb developers <cargo-deb@example.invalid>"
 copyright = "2017, cargo-deb developers."
 license-file = ["LICENSE", "2"]
 extended-description = "example project for cargo-deb"
-depends = "$auto"
+depends = "$auto, systemd"
 section = "utils"
 priority = "optional"
 assets = [
     # binary
-    ["target/release/kinhotelserver", "usr/bin/", "755"],
-    # assets
-    ["assets/*", "var/lib/kinhotelserver", "644"],
+    ["target/release/kinhotelserver", "usr/bin/kin", "755"],
+     ["debian/kin.service", "/lib/systemd/system/kin.service", "644"], 
 
 ]
-changelog = "changelog"
-default-features = false
-features = ["example_debian_build"]
+maintainer-scripts = "debian/scripts"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
