@@ -1,5 +1,5 @@
 [Unit]
-AssertPathExists=/usr/bin/hello
+AssertPathExists=/usr/bin/kin
 
 [Service]
 WorkingDirectory=/home/kinhotel/kinhotelrust
