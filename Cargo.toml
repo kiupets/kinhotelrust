@@ -5,12 +5,9 @@ edition = "2021"
 authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 
 [package.metadata.deb]
-maintainer = "cargo-deb developers <cargo-deb@example.invalid>"
-copyright = "2017, cargo-deb developers."
-# license-file = ["LICENSE", "2"]
-extended-description = "example project for cargo-deb"
 depends = "$auto, systemd"
-section = "utils"
+extended-description = "simple hello world test"
+section = "admin"
 priority = "optional"
 assets = [
     # binary
