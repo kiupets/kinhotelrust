@@ -9,5 +9,5 @@ PrivateTmp=true
 NoNewPrivileges=true
 
 [Install]
-Alias=hello
+Alias=kin
 WantedBy=default.target
