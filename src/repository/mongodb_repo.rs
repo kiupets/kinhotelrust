@@ -8,7 +8,7 @@ use crate::models::user_model::User;
 use futures::stream::TryStreamExt;
 use mongodb::{
     bson::{doc, extjson::de::Error, oid::ObjectId},
-    results::InsertOneResult,
+    results::{InsertOneResult, UpdateResult},
     Client, Collection,
 };
 
@@ -41,6 +41,7 @@ impl MongoRepo {
             room: new_user.room,
             start: new_user.start,
             end: new_user.end,
+            // price: new_user.price,
             interval_rented_array: new_user.interval_rented_array,
         };
         let user = self
@@ -68,7 +69,16 @@ impl MongoRepo {
         println!("mongo repo");
         let new_doc = Rented {
             id: None,
-            interval_rented_array: new_rented.interval_rented_array,
+            name: new_rented.name,
+            email: new_rented.email,
+            phone: new_rented.phone,
+            room: new_rented.room,
+            start: new_rented.start,
+            end: new_rented.end,
+            nights: new_rented.nights,
+            idd: new_rented.idd,
+            price: new_rented.price,
+            // interval_rented_array: new_rented.interval_rented_array,
         };
 
         let rented = self
@@ -88,8 +98,40 @@ impl MongoRepo {
             .find_one(filter, None)
             .await
             .ok()
-            .expect("Error getting user's detail");
+            .expect("Error getting rented's detail");
         Ok(rented_detail.expect("bad ok"))
+    }
+    pub async fn update_rented(
+        &self,
+        id: &String,
+        new_rented: Rented,
+    ) -> Result<UpdateResult, Error> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id};
+        println!("fffffffffffffffffffffffffffffffffffffffffff{}", filter);
+        let new_doc = doc! {
+            "$set":
+                {
+        "id":new_rented.id,
+            "idd": new_rented.idd,
+            "name": new_rented.name,
+            "email": new_rented.email,
+            "phone": new_rented.phone,
+            "room": new_rented.room,
+            "start": new_rented.start,
+            "end": new_rented.end,
+            "nights": new_rented.nights,
+            "price": new_rented.price,
+            // "interval_rented_array": new_rented.interval_rented_array,
+                },
+        };
+        let updated_doc = self
+            .col_rented
+            .update_one(filter, new_doc, None)
+            .await
+            .ok()
+            .expect("Error updating rented");
+        Ok(updated_doc)
     }
 
     pub async fn get_all(&self) -> Result<Vec<Rented>, Error> {

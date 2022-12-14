@@ -11,7 +11,7 @@ mod api;
 mod models;
 mod repository;
 mod websocket;
-use api::rented_api::{create_rented, get_all, get_rented};
+use api::rented_api::{create_rented, get_all, get_rented, update_rented};
 use api::user_api::{create_user, get_user};
 use repository::mongodb_repo::MongoRepo;
 use websocket::ws_index;
@@ -42,6 +42,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_user)
             .service(create_rented)
             .service(get_rented)
+            .service(update_rented)
             .service(get_all)
             .service(Files::new("/", "./build").index_file("index.html"))
     })

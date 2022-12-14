@@ -37,6 +37,7 @@ impl Server {
     fn send_message(&self, data: SerdeResult<String>) {
         match data {
             Ok(data) => {
+                println!("{:?}", data);
                 for recipient in self.sessions.values() {
                     match recipient.try_send(Message(data.clone())) {
                         Err(err) => {

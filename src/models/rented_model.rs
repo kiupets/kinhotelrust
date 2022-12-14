@@ -5,5 +5,14 @@ use serde::{Deserialize, Serialize};
 pub struct Rented {
     #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
     pub id: Option<ObjectId>,
-    pub interval_rented_array: String,
+    pub name: String,
+    pub email: String,
+    pub phone: String,
+    pub room: String,
+    pub start: String,
+    pub end: String,
+    pub nights: String,
+    pub idd: String,
+    pub price: String,
+    // pub interval_rented_array: String
 }

@@ -98,15 +98,12 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WebSocketSession 
                 self.hb = Instant::now();
             }
             Ok(ws::Message::Binary(bin)) => ctx.binary(bin),
-            Ok(Text(s)) => {
-                println!("{}", s);
-                self.server_addr.do_send(MessageToClient::new(
-                    "rented",
-                    serde_json::json!(s.to_string()),
-                ))
-            }
+            Ok(Text(s)) => self.server_addr.do_send(MessageToClient::new(
+                "rented",
+                serde_json::json!(s.to_string()),
+            )),
             Ok(ws::Message::Close(reason)) => {
-                println!("{:?}", reason);
+                // println!("{:?}", reason);
                 log::info!("closed ws session");
                 self.server_addr.do_send(Disconnect {
                     id: self.id.clone(),
@@ -135,6 +132,6 @@ pub async fn ws_index(
         &req,
         stream,
     )?;
-
+    println!("{:?}", res);
     Ok(res)
 }

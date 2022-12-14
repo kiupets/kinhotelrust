@@ -11,5 +11,6 @@ pub struct User {
     pub room: String,
     pub start: String,
     pub end: String,
+    // pub price: String,
     pub interval_rented_array: String,
 }
