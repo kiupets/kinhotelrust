@@ -76,7 +76,6 @@ impl MongoRepo {
             start: new_rented.start,
             end: new_rented.end,
             nights: new_rented.nights,
-            idd: new_rented.idd,
             price: new_rented.price,
             // interval_rented_array: new_rented.interval_rented_array,
         };
@@ -112,8 +111,7 @@ impl MongoRepo {
         let new_doc = doc! {
             "$set":
                 {
-        "id":new_rented.id,
-            "idd": new_rented.idd,
+            "id":new_rented.id,
             "name": new_rented.name,
             "email": new_rented.email,
             "phone": new_rented.phone,

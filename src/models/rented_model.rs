@@ -12,7 +12,7 @@ pub struct Rented {
     pub start: String,
     pub end: String,
     pub nights: String,
-    pub idd: String,
+
     pub price: String,
     // pub interval_rented_array: String
 }

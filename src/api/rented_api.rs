@@ -30,14 +30,14 @@ pub async fn create_rented(
         email: params.email.to_owned(),
         phone: params.phone.to_owned(),
         nights: params.nights.to_owned(),
-        idd: params.idd.to_owned(),
+
         price: params.price.to_owned(),
         // interval_rented_array: params.interval_rented_array.to_owned(),
     };
-    if let Ok(data) = to_value(data.clone()) {
-        let msg = MessageToClient::new("rented", data);
-        srv.do_send(msg);
-    }
+    // if let Ok(data) = to_value(data.clone()) {
+    // let msg = MessageToClient::new("rented", data, id.to_string());
+    // srv.do_send(msg);
+    // }
 
     let rented_detail = db.create_rented(data).await;
     match rented_detail {
@@ -74,7 +74,6 @@ pub async fn update_rented(
     };
     let data = Rented {
         id: new_rented.id.to_owned(),
-        idd: new_rented.idd.to_owned(),
         name: new_rented.name.to_owned(),
         start: new_rented.start.to_owned(),
         end: new_rented.end.to_owned(),

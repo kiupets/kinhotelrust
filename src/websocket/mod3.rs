@@ -1,17 +1,23 @@
+// pub mod lobby;
+// pub mod messages;
+// pub mod server2;
+// pub mod start_connection;
+// pub mod wss;
 use std::time::{Duration, Instant};
 
-use uuid::Uuid;
-
+use crate::Error;
 use actix::{
     fut,
-    prelude::{Actor, Addr, Handler, StreamHandler},
+    prelude::{Actor, Addr, Handler, Running, StreamHandler},
     ActorContext, ActorFutureExt, AsyncContext, ContextFutureSpawner, WrapFuture,
 };
-use actix_web::{web, HttpRequest, HttpResponse};
-use actix_web_actors::ws;
 
-use crate::Error;
+use actix_web::{web, web::Path, HttpRequest, HttpResponse};
+use actix_web_actors::ws;
 use actix_web_actors::ws::Message::Text;
+use log::kv::ToValue;
+use serde_json::{error::Result as SerdeResult, from_str, json, to_string, Value};
+use uuid::Uuid;
 mod server;
 pub use self::server::*;
 
@@ -19,16 +25,17 @@ const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(30);
 
 pub struct WebSocketSession {
-    // room: String,
-    id: String,
+    room: Uuid,
+    id: Uuid,
     hb: Instant,
     server_addr: Addr<Server>,
 }
 
 impl WebSocketSession {
-    fn new(server_addr: Addr<Server>) -> Self {
+    fn new(room: Uuid, server_addr: Addr<Server>) -> Self {
         Self {
-            id: Uuid::new_v4().to_string(),
+            room,
+            id: Uuid::new_v4(),
             hb: Instant::now(),
             server_addr,
         }
@@ -38,7 +45,10 @@ impl WebSocketSession {
         ctx.run_interval(HEARTBEAT_INTERVAL, |act, ctx| {
             if Instant::now().duration_since(act.hb) > CLIENT_TIMEOUT {
                 log::info!("Websocket Client heartbeat failed, disconnecting!");
-                act.server_addr.do_send(Disconnect { id: act.id.clone() });
+                act.server_addr.do_send(Disconnect {
+                    id: act.id,
+                    room_id: act.room,
+                });
                 // stop actor
                 ctx.stop();
 
@@ -60,7 +70,8 @@ impl Actor for WebSocketSession {
         self.server_addr
             .send(Connect {
                 addr: session_addr.recipient(),
-                id: self.id.clone(),
+                server_id: self.room,
+                id: self.id,
             })
             .into_actor(self)
             .then(|res, _act, ctx| {
@@ -72,6 +83,13 @@ impl Actor for WebSocketSession {
             })
             .wait(ctx);
     }
+    // fn stopping(&mut self, _: &mut Self::Context) -> Running {
+    //     self.server_addr.do_send(Disconnect {
+    //         id: self.id,
+    //         room_id: self.room,
+    //     });
+    //     Running::Stop
+    // }
 }
 
 impl Handler<Message> for WebSocketSession {
@@ -93,21 +111,24 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WebSocketSession 
                 self.hb = Instant::now();
             }
             Ok(ws::Message::Binary(bin)) => ctx.binary(bin),
-            Ok(Text(s)) => self.server_addr.do_send(MessageToClient::new(
-                "rented",
-                serde_json::json!(s.to_string()),
-            )),
+            Ok(Text(s)) => {
+                println!("{:?}",&s.to_string());
+                self.server_addr.do_send(MessageToClient {
+                    id:self.id,
+                    msg: s.to_string(),
+                    room_id: self.room
+                    
+                    // msg: serde_json::Value::String(s.to_string()),
+                    // room_id: self.room.clone(),
+                }
+         
+            )
+            }
             Ok(ws::Message::Close(reason)) => {
-                // println!("{:?}", reason);
-                log::info!("closed ws session");
-                self.server_addr.do_send(Disconnect {
-                    id: self.id.clone(),
-                });
                 ctx.close(reason);
                 ctx.stop();
             }
             Err(err) => {
-                println!("{}", err);
                 log::warn!("Error handling msg: {:?}", err);
                 ctx.stop()
             }
@@ -120,13 +141,13 @@ pub async fn ws_index(
     req: HttpRequest,
     stream: web::Payload,
     server_addr: web::Data<Addr<Server>>,
+    id: web::Path<Uuid>,
 ) -> Result<HttpResponse, Error> {
-    println!("{:?}", req);
     let res = ws::start(
-        WebSocketSession::new(server_addr.get_ref().clone()),
+        WebSocketSession::new(*id, server_addr.get_ref().clone()),
         &req,
         stream,
     )?;
-    println!("{:?}", res);
+println!("{:?}", res);
     Ok(res)
 }
