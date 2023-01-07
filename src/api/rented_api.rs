@@ -35,8 +35,9 @@ pub async fn create_rented(
         // interval_rented_array: params.interval_rented_array.to_owned(),
     };
     // if let Ok(data) = to_value(data.clone()) {
-    // let msg = MessageToClient::new("rented", data, id.to_string());
-    // srv.do_send(msg);
+    //     println!("{:?}renteddddddd apiiiiiiiiiiiiiiiiiii", data);
+    //     let msg = MessageToClient::new("rented", data);
+    //     srv.do_send(msg);
     // }
 
     let rented_detail = db.create_rented(data).await;

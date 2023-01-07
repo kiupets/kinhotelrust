@@ -121,12 +121,11 @@ pub async fn ws_index(
     stream: web::Payload,
     server_addr: web::Data<Addr<Server>>,
 ) -> Result<HttpResponse, Error> {
-    println!("{:?}", req);
     let res = ws::start(
         WebSocketSession::new(server_addr.get_ref().clone()),
         &req,
         stream,
     )?;
-    println!("{:?}", res);
+    println!("{:?}uuuuuuuuuuuuuuuuuuuuuuuuuu", res);
     Ok(res)
 }

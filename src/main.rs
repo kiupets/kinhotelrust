@@ -2,6 +2,7 @@ mod lobby;
 mod ws;
 use lobby::Lobby;
 mod messages;
+
 mod start_connection;
 use actix::Actor;
 use start_connection::start_connection as start_connection_route;
@@ -18,10 +19,13 @@ mod api;
 mod models;
 mod repository;
 mod websocket;
+mod websocket2;
+
 use api::rented_api::{create_rented, get_all, get_rented, update_rented};
 use api::user_api::{create_user, get_user};
 use repository::mongodb_repo::MongoRepo;
 use websocket::ws_index;
+use websocket2::ws_index_drag;
 // mod settings;
 
 // pub fn routes(cfg: &mut web::ServiceConfig) {
@@ -31,6 +35,8 @@ use websocket::ws_index;
 
 async fn main() -> std::io::Result<()> {
     let server = websocket::Server::new().start();
+    let server2 = websocket2::Server2::new().start();
+
     // let chat_server = Lobby::new().start();
     // let HOST = env::var("HOST").expect("Host not set");
     // let PORT = env::var("PORT").expect("Port not set");
@@ -47,8 +53,10 @@ async fn main() -> std::io::Result<()> {
             .app_data(db_data.clone())
             // .route("/ws", web::get().to(start_connection_route))
             .data(server.clone())
+            .data(server2.clone())
             .service(create_user)
             .route("/ws", web::get().to(ws_index))
+            .route("/wss", web::get().to(ws_index_drag))
             .service(get_user)
             .service(create_rented)
             .service(get_rented)

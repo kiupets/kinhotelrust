@@ -1,31 +1,15 @@
 {
-<<<<<<< HEAD
   "main.css": "/static/css/main.e504242a.chunk.css",
-  "main.js": "/static/js/main.2a4914b7.chunk.js",
-  "main.js.map": "/static/js/main.2a4914b7.chunk.js.map",
+  "main.js": "/static/js/main.6739a5b7.chunk.js",
+  "main.js.map": "/static/js/main.6739a5b7.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.799404a9.js",
   "runtime~main.js.map": "/static/js/runtime~main.799404a9.js.map",
-  "static/js/2.833b2fff.chunk.js": "/static/js/2.833b2fff.chunk.js",
-  "static/js/2.833b2fff.chunk.js.map": "/static/js/2.833b2fff.chunk.js.map",
+  "static/js/2.2b9d140c.chunk.js": "/static/js/2.2b9d140c.chunk.js",
+  "static/js/2.2b9d140c.chunk.js.map": "/static/js/2.2b9d140c.chunk.js.map",
   "static/js/3.cf3e6658.chunk.js": "/static/js/3.cf3e6658.chunk.js",
   "static/js/3.cf3e6658.chunk.js.map": "/static/js/3.cf3e6658.chunk.js.map",
   "index.html": "/index.html",
-  "precache-manifest.f14de2a0d64ae1ddad34f4cf2069ab44.js": "/precache-manifest.f14de2a0d64ae1ddad34f4cf2069ab44.js",
+  "precache-manifest.88f2c735de12b563a9ad7ddb534dc74a.js": "/precache-manifest.88f2c735de12b563a9ad7ddb534dc74a.js",
   "service-worker.js": "/service-worker.js",
   "static/css/main.e504242a.chunk.css.map": "/static/css/main.e504242a.chunk.css.map"
-=======
-  "main.css": "/static/css/main.a7c23de5.chunk.css",
-  "main.js": "/static/js/main.03dcc1af.chunk.js",
-  "main.js.map": "/static/js/main.03dcc1af.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.fec8cdf0.js",
-  "runtime~main.js.map": "/static/js/runtime~main.fec8cdf0.js.map",
-  "static/js/2.0057e439.chunk.js": "/static/js/2.0057e439.chunk.js",
-  "static/js/2.0057e439.chunk.js.map": "/static/js/2.0057e439.chunk.js.map",
-  "static/js/3.d5e2ee39.chunk.js": "/static/js/3.d5e2ee39.chunk.js",
-  "static/js/3.d5e2ee39.chunk.js.map": "/static/js/3.d5e2ee39.chunk.js.map",
-  "index.html": "/index.html",
-  "precache-manifest.63377c9d35fd0fc9537dd004ac4c3aec.js": "/precache-manifest.63377c9d35fd0fc9537dd004ac4c3aec.js",
-  "service-worker.js": "/service-worker.js",
-  "static/css/main.a7c23de5.chunk.css.map": "/static/css/main.a7c23de5.chunk.css.map"
->>>>>>> b1b19bf9e7de0c61deb3c377a0f0e1a968a36255
 }
