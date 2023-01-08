@@ -1,11 +1,4 @@
-mod lobby;
-mod ws;
-use lobby::Lobby;
-mod messages;
-
-mod start_connection;
 use actix::Actor;
-use start_connection::start_connection as start_connection_route;
 
 use std::env;
 
@@ -38,16 +31,16 @@ async fn main() -> std::io::Result<()> {
     let server2 = websocket2::Server2::new().start();
 
     // let chat_server = Lobby::new().start();
-    let HOST = env::var("HOST").expect("Host not set");
-    let PORT = env::var("PORT").expect("Port not set");
+    // let HOST = env::var("HOST").expect("Host not set");
+    // let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init().await;
     let db_data = Data::new(db);
     HttpServer::new(move || {
-        // let cors = Cors::permissive();
+        let cors = Cors::permissive();
 
         App::new()
-            // .wrap(cors)
+            .wrap(cors)
             // .data(chat_server.clone())
             // .service(start_connection_route)
             .app_data(db_data.clone())
@@ -65,8 +58,8 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/", "./build").index_file("index.html"))
     })
     .workers(2)
-    .bind(format!("{}:{}", HOST, PORT))?
-    // .bind("127.0.0.1:8000")?
+    // .bind(format!("{}:{}", HOST, PORT))?
+    .bind("127.0.0.1:8000")?
     .run()
     .await
 }
