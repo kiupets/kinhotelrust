@@ -30,8 +30,8 @@ async fn main() -> std::io::Result<()> {
     let server = websocket::Server::new().start();
     let server2 = websocket2::Server2::new().start();
 
-    let HOST = env::var("HOST").expect("Host not set");
-    let PORT = env::var("PORT").expect("Port not set");
+    // let HOST = env::var("HOST").expect("Host not set");
+    // let PORT = env::var("PORT").expect("Port not set");
 
     let db = MongoRepo::init().await;
     let db_data = Data::new(db);
@@ -57,7 +57,7 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/", "./build").index_file("index.html"))
     })
     .workers(2)
-    .bind(format!("{}:{}", HOST, PORT))?
+    // .bind(format!("{}:{}", HOST, PORT))?
     .bind("127.0.0.1:8000")?
     .run()
     .await
