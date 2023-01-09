@@ -36,10 +36,10 @@ async fn main() -> std::io::Result<()> {
     let db = MongoRepo::init().await;
     let db_data = Data::new(db);
     HttpServer::new(move || {
-        let cors = Cors::permissive();
+        // let cors = Cors::permissive();
 
         App::new()
-            .wrap(cors)
+            // .wrap(cors)
             // .data(chat_server.clone())
             // .service(start_connection_route)
             .app_data(db_data.clone())
@@ -58,7 +58,7 @@ async fn main() -> std::io::Result<()> {
     })
     .workers(2)
     .bind(format!("{}:{}", HOST, PORT))?
-    // .bind("127.0.0.1:8000")?
+    .bind("127.0.0.1:8000")?
     .run()
     .await
 }
