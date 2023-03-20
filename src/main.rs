@@ -9,11 +9,13 @@ use actix_web::{App, HttpServer};
 // use actix_web_actors::ws;
 
 mod api;
+
 mod models;
 mod repository;
 mod websocket;
 mod websocket2;
 
+use api::login_api::login;
 use api::rented_api::{create_rented, get_all, get_rented, update_rented};
 use api::user_api::{create_user, get_user};
 use repository::mongodb_repo::MongoRepo;
@@ -54,6 +56,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_rented)
             .service(update_rented)
             .service(get_all)
+            .service(login)
             .service(Files::new("/", "./build").index_file("index.html"))
     })
     .workers(2)

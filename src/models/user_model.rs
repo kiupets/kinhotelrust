@@ -8,9 +8,6 @@ pub struct User {
     pub name: String,
     pub email: String,
     pub phone: String,
-    pub room: String,
-    pub start: String,
-    pub end: String,
-    // pub price: String,
-    pub interval_rented_array: String,
+    pub password_hash: String,
 }
+//user model

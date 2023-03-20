@@ -38,11 +38,7 @@ impl MongoRepo {
             name: new_user.name,
             email: new_user.email,
             phone: new_user.phone,
-            room: new_user.room,
-            start: new_user.start,
-            end: new_user.end,
-            // price: new_user.price,
-            interval_rented_array: new_user.interval_rented_array,
+            password_hash: new_user.password_hash,
         };
         let user = self
             .col
