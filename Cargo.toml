@@ -4,18 +4,6 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 
-[package.metadata.deb]
-depends = "$auto, systemd"
-extended-description = "simple hello world test"
-section = "admin"
-priority = "optional"
-assets = [
-    # binary
-     ["target/release/kinhotelserver", "usr/bin/kin", "755"],
-    ["debian/kin.service", "/lib/systemd/system/kin.service", "644"], 
-]
-maintainer-scripts = "debian/scripts"
-
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -34,7 +22,7 @@ futures = "0.3.21"
 
 dotenv = "0.15.0"
 actix = "0.13.0"
-uuid = {version = "1.1.2", features = ["serde", "v4"]}
+uuid = { version = "1.1.2", features = ["serde", "v4"] }
 actix-web-actors = "4.1.0"
 actix-rt = "2.7.0"
 ws = "0.9.2"
@@ -53,6 +41,4 @@ tracing = "0.1.37"
 [dependencies.mongodb]
 version = "2.2.0"
 default-features = false
-features = ["async-std-runtime"] 
-
-
+features = ["async-std-runtime"]
