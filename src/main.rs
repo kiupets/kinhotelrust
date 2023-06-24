@@ -41,7 +41,7 @@ async fn main() -> std::io::Result<()> {
         // let cors = Cors::permissive();
 
         App::new()
-            .wrap(cors)
+            // .wrap(cors)
             // .data(chat_server.clone())
             // .service(start_connection_route)
             .app_data(db_data.clone())
