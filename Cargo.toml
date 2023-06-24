@@ -5,8 +5,6 @@ edition = "2021"
 authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 actix-web = "4.1.0"
 actix-cors = "0.6.1"
