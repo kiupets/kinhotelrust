@@ -38,7 +38,7 @@ async fn main() -> std::io::Result<()> {
     let db = MongoRepo::init().await;
     let db_data = Data::new(db);
     HttpServer::new(move || {
-        let cors = Cors::permissive();
+        // let cors = Cors::permissive();
 
         App::new()
             .wrap(cors)
