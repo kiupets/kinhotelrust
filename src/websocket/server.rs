@@ -22,7 +22,7 @@ impl MessageToClient {
         }
     }
 }
-#[derive(Clone)]
+
 pub struct Server {
     sessions: HashMap<String, Recipient<Message>>,
 }

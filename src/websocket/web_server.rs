@@ -10,12 +10,11 @@ use actix::{
 use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
 
-use actix_web::Error;
-use actix_web_actors::ws::Message::Text;
-// mod server;
-
 pub use self::server::*;
 use crate::websocket::server;
+use actix_web::Error;
+use actix_web_actors::ws::Message::Text;
+
 const HEARTBEAT_INTERVAL: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(30);
 

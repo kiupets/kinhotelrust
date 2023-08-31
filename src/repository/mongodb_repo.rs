@@ -20,11 +20,15 @@ pub struct MongoRepo {
 impl MongoRepo {
     pub async fn init() -> Self {
         dotenv().ok();
-        let uri = match env::var("MONGO_URI") {
-            Ok(v) => v.to_string(),
-            Err(_) => format!("Error loading env variable"),
-        };
-        let client = Client::with_uri_str(uri).await.unwrap();
+        // let uri = match env::var("MONGO_URI") {
+        //     Ok(v) => v.to_string(),
+        //     Err(_) => format!("Error loading env variable"),
+        // };
+        let client = Client::with_uri_str(
+            "mongodb+srv://kiupets:ShDpcBGLRhvAuwAh@cluster0.cpgytzo.mongodb.net/?retryWrites=true",
+        )
+        .await
+        .unwrap();
         let db = client.database("kinhotelrust");
         let col: Collection<User> = db.collection("User");
         let col_rented: Collection<Rented> = db.collection("Rented");
