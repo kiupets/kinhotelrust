@@ -1,3 +1,10 @@
+[workspace]
+members = [
+    "lib.rs",
+    "main.rs",
+    # Add other crate names here
+]
+
 [package]
 name = "kinhotelrust"
 version = "0.1.0"
