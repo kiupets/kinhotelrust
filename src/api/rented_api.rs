@@ -1,6 +1,6 @@
 // use crate::lobby::Lobby;
 // use crate::messages::BroadcastMessage;
-use crate::websocket::{MessageToClient, Server};
+use crate::websocket::server::{MessageToClient, Server};
 use crate::{models::rented_model::Rented, repository::mongodb_repo::MongoRepo};
 use actix::Addr;
 use actix_web::{
