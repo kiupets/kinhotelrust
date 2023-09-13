@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 
-<<<<<<< HEAD
 
 [lib]
 # We could use any path here, but we are following the community convention
@@ -22,8 +21,6 @@ name = "kinhotelrust"
 name = "kinhotelrust"
 path = "tests/health_check.rs"
 
-=======
->>>>>>> 9219adfb90170b831833b9dbf9f07ab274c3a509
 
 [dependencies]
 actix-web = "4.1.0"
@@ -85,7 +82,6 @@ linkify = "0.9"
 version = "2.2.0"
 default-features = false
 features = ["async-std-runtime"]
-<<<<<<< HEAD
 
 # Using table-like toml syntax to avoid a super-long line!
 [dependencies.sqlx]
@@ -100,5 +96,3 @@ features = [
     "migrate",
     "offline",
 ]
-=======
->>>>>>> 9219adfb90170b831833b9dbf9f07ab274c3a509
