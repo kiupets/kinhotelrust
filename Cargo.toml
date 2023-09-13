@@ -1,9 +1,9 @@
-[workspace]
-members = [
-    "lib.rs",
-    "main.rs",
-    # Add other crate names here
-]
+# [workspace]
+# members = [
+#     "lib.rs",
+#     "main.rs",
+#     # Add other crate names here
+# ]
 
 [package]
 name = "kinhotelrust"
@@ -11,6 +11,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Gonzalo Gil <gonzalogg1975@gmail.com>"]
 
+[workspace]
 
 [lib]
 # We could use any path here, but we are following the community convention
